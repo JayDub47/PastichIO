@@ -13,6 +13,7 @@ class Gatys:
     def __init__(self, content_image_path, style_image_path, output_folder, iterations):
         self.content_weight = 0.00001
         self.style_weight = 1.0
+        self.total_variation_weight = 1.0
         self.output_folder = output_folder
         self.iterations = int(iterations)
         self.content_layer = 'block4_conv2'
@@ -50,6 +51,8 @@ class Gatys:
 
         style_loss = self.style_weight * temp_style_loss
         total_loss += style_loss
+
+        total_loss += self.total_variation_weight * self.calculate_total_variation_loss(self.generated_img)
 
         #Compute Gradients
         gradients = k.gradients(total_loss, self.generated_img)
@@ -93,6 +96,14 @@ class Gatys:
         factor = 1.0 / (4 * n**2 * m**2)
         return factor * (k.sum(k.square(generated_gram - style_gram)))
 
+    def calculate_total_variation_loss(self, generated_image_output):
+        #Calculates the Total Variation loss of the generated image
+        #implementation adapted from https://github.com/Hvass-Labs/TensorFlow-Tutorials/blob/master/15_Style_Transfer.ipynb
+        total_variation_loss = k.sum(k.abs(generated_image_output[:, 1:, :, :]) - k.abs(generated_image_output[:, :-1, :, :])) + \
+               k.sum(k.abs(generated_image_output[:, :, 1:, :]) - k.abs(generated_image_output[:, :, :-1, :]))
+
+        return total_variation_loss
+
     def loss(self, img):
         #Calculate Loss
         img = img.reshape((1, self.out_dim, self.out_dim, 3))
@@ -127,7 +138,7 @@ class Gatys:
             print("Beginning Iteration" + str(i))
             output_image, y, z = fmin_l_bfgs_b(self.loss, output_image.flatten(), fprime=self.gradient, maxfun=20)
             iteration_result = self.deprocess_image(output_image.copy())
-            imname = output_folder + "/" + "output_" + str(i) + ".jpg"
+            imname = self.output_folder + "/" + "output_" + str(i) + ".jpg"
             imsave(imname, iteration_result)
 
 if __name__ == "__main__":
