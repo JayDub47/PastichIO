@@ -7,7 +7,6 @@ class Image_Transform_Net(nn.Module):
 
     def __init__(self):
         super(Image_Transform_Net, self).__init__()
-        #self.padding1 = nn.ReflectionPad2d(40)
         self.padding2 = nn.ReflectionPad2d(4)
         self.conv1 = nn.Conv2d(3, 32, 9, stride=1)
         self.batch1 = nn.BatchNorm2d(32)
@@ -37,7 +36,6 @@ class Image_Transform_Net(nn.Module):
         self.relu = nn.ReLU()
 
     def forward(self, x):
-        #out = self.padding1(x)
         out = self.padding2(x)
         out = self.conv1(out)
         out = self.batch1(out)
