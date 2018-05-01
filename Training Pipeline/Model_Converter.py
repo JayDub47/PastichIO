@@ -15,6 +15,8 @@ onnx_model_name = sys.argv[2] + ".proto"
 torch.onnx.export(pytorch_model, dummy_input, onnx_model_name)
 
 onnx_model = onnx.load(onnx_model_name)
-coreml_model = convert(onnx_model, add_custom_layers=True)
+preprocessing_args = {"image_scale":1/255.0}
+deprocessing_args = {"image_scale": 255.0}
+coreml_model = convert(onnx_model, image_input_names=["1"], preprocessing_args=preprocessing_args, deprocessing_args=deprocessing_args, image_output_names=["211"])
 coreml_model_name = sys.argv[3] + ".mlmodel"
 coreml_model.save(coreml_model_name)
