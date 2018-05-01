@@ -1,0 +1,60 @@
+import torch
+import torch.nn as nn
+from Residual_Block import Residual_Block
+
+class Image_Transform_Net(nn.Module):
+
+    def __init__(self):
+        super(Image_Transform_Net, self).__init__()
+        self.padding = nn.ReflectionPad2d(40)
+        self.conv1 = nn.Conv2d(3, 32, 9, stride=1, padding=4)
+        self.batch1 = nn.BatchNorm2d(32)
+        self.relu1 = nn.ReLU()
+        self.conv2 = nn.Conv2d(32, 64, 3, stride=2, padding=1)
+        self.batch2 = nn.BatchNorm2d(64)
+        self.relu2 = nn.ReLU()
+        self.conv3 = nn.Conv2d(64, 128, 3, stride=2, padding=1)
+        self.batch3 = nn.BatchNorm2d(128)
+        self.relu3 = nn.ReLU()
+        self.residual1 = Residual_Block(128, 128, 3)
+        self.residual2 = Residual_Block(128, 128, 3)
+        self.residual3 = Residual_Block(128, 128, 3)
+        self.residual4 = Residual_Block(128, 128, 3)
+        self.residual5 = Residual_Block(128, 128, 3)
+        self.deconv1 = nn.ConvTranspose2d(128, 64, 3, stride=2, padding=1, output_padding=1)
+        self.batch4 = nn.BatchNorm2d(64)
+        self.relu4 = nn.ReLU()
+        self.deconv2 = nn.ConvTranspose2d(64, 32, 3, stride=2, padding=1, output_padding=1)
+        self.batch5 = nn.BatchNorm2d(32)
+        self.relu5 = nn.ReLU()
+        self.conv4 = nn.Conv2d(32, 3, 9, stride=1, padding=4)
+        self.batch6 = nn.BatchNorm2d(3)
+        self.relu6 = nn.ReLU()
+
+    def forward(self, x):
+        out = self.padding(x)
+        out = self.conv1(out)
+        out = self.batch1(out)
+        out = self.relu1(out)
+        out = self.conv2(out)
+        out = self.batch2(out)
+        out = self.relu2(out)
+        out = self.conv3(out)
+        out = self.batch3(out)
+        out = self.relu3(out)
+        out = self.residual1(out)
+        out = self.residual2(out)
+        out = self.residual3(out)
+        out = self.residual4(out)
+        out = self.residual5(out)
+        out = self.deconv1(out)
+        out = self.batch4(out)
+        out = self.relu4(out)
+        out = self.deconv2(out)
+        out = self.batch5(out)
+        out = self.relu5(out)
+        out = self.conv4(out)
+        out = self.batch6(out)
+        out = self.relu6(out)
+
+        return out
