@@ -138,4 +138,4 @@ if __name__ == "__main__":
     test_pastiche = network.transform_image(sys.argv[3])
     test_pastiche.save("Output.png")
     dummy_input = Variable(torch.randn(1, 3, 512, 512)).cuda()
-    torch.onnx.export(transform_network, dummy_input, "Trained_Network.proto")
+    torch.onnx.export(model, dummy_input, "Trained_Network.proto")
