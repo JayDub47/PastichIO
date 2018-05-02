@@ -23,7 +23,6 @@ class Residual_Block(nn.Module):
         out = self.padding2(x)
         out = self.conv2(out)
         out = self.batch_norm2(out)
-        #residual = F.pad(residual, (-2, -2, -2, -2)) #Match x size to out size after convolutions
         out = out + residual
 
         return out
