@@ -53,6 +53,12 @@
                                     <segue destination="iO1-JE-fui" kind="show" id="Lab-eR-Zu1"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" editable="NO" text="Select a photo or take a new one to get the process started." textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eke-dc-hLh">
+                                <rect key="frame" x="19" y="447" width="340" height="146"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -63,6 +69,7 @@
                             <constraint firstItem="UDg-HD-qe4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="efg-hA-16f"/>
                             <constraint firstAttribute="trailing" secondItem="UDg-HD-qe4" secondAttribute="trailing" id="iGC-HF-d4r"/>
                             <constraint firstAttribute="baseline" secondItem="9dE-og-ZU5" secondAttribute="bottom" constant="10" id="nhV-xP-ryq"/>
+                            <constraint firstItem="eke-dc-hLh" firstAttribute="top" secondItem="UDg-HD-qe4" secondAttribute="bottom" constant="10" id="rFU-dc-yxP"/>
                             <constraint firstItem="9dE-og-ZU5" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="sNs-tN-rfy"/>
                         </constraints>
                     </view>
@@ -103,10 +110,17 @@
                                     <action selector="saveImage:" destination="iO1-JE-fui" eventType="touchUpInside" id="ICL-tB-Fly"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" editable="NO" text="Click the button below to save your photo and share it with your friends!" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bS1-AT-5iL">
+                                <rect key="frame" x="16" y="447" width="340" height="146"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LdT-x9-1V6" firstAttribute="leading" secondItem="fHc-pt-ecj" secondAttribute="leading" id="4K9-CI-WPr"/>
+                            <constraint firstItem="bS1-AT-5iL" firstAttribute="top" secondItem="LdT-x9-1V6" secondAttribute="bottom" constant="10" id="THy-3l-hj1"/>
                             <constraint firstItem="LdT-x9-1V6" firstAttribute="top" secondItem="u5S-eJ-nvt" secondAttribute="bottom" id="ZSy-1G-4wm"/>
                             <constraint firstAttribute="trailing" secondItem="LdT-x9-1V6" secondAttribute="trailing" id="tXO-xH-x3J"/>
                         </constraints>
