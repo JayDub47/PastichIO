@@ -4,6 +4,9 @@ import torch.nn as nn
 from Gram_Matrix import Gram_Matrix
 
 class Style_Loss(nn.Module):
+    '''This class works the same as the Content Loss class but with
+       the addition of a gram matrix operation on the outputs before
+       the loss calculation'''
 
     def __init__(self, target, weight):
         super(Style_Loss, self).__init__()

@@ -7,6 +7,10 @@ from Style_Loss import Style_Loss
 from Gram_Matrix import Gram_Matrix
 
 class Loss_Network():
+    '''This class passes the style, content and pastiche images through
+       the VGG network, and produces a new model with the additional
+       Style and Content loss layers inserted'''
+
 
     def __init__(self, style_image, content_weight, style_weight, content_layer, style_layers, use_cuda):
         self.style_image = style_image
@@ -26,6 +30,7 @@ class Loss_Network():
         content_losses = []
         style_losses = []
 
+        #Constructs a new model to hold the VGG and Loss layers
         model = nn.Sequential()
         gram = Gram_Matrix()
 
@@ -34,8 +39,12 @@ class Loss_Network():
             gram = gram.cuda()
 
         i = 1
+        #The VGG network is iterated through and added to the new model
         for layer in list(network):
 
+            '''For convolutional layers, if they are style or loss layers the 
+               relevant Loss layer is added to the model after the layer is
+               inserted'''
             if isinstance(layer, nn.Conv2d):
                 name = "conv_" + str(i)
                 model.add_module(name, layer)
@@ -58,6 +67,7 @@ class Loss_Network():
                 model.add_module(name, layer)
                 i += 1
 
+            #Max Pool layers are replaced by Average Pool layers as described in Gatys
             if isinstance(layer, nn.MaxPool2d):
                 name = "pool_" + str(i)
                 avgpool = nn.AvgPool2d(kernel_size=layer.kernel_size, stride=layer.stride,

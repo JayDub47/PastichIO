@@ -38,6 +38,7 @@ class Feed_Forward_Transfer():
         if self.use_cuda:
             self.transform_network = self.transform_network.cuda()
 
+        #Loading function used when loading images
         self.loader = transforms.Compose([
             transforms.Resize((self.im_size, self.im_size)),
             transforms.ToTensor()
@@ -49,6 +50,7 @@ class Feed_Forward_Transfer():
         return image
 
     def transform_image(self, im_path):
+        #Prepares test image for saving at the end of the training process
         image = self.image_loader(im_path).unsqueeze(0)
         if self.use_cuda:
             image = image.cuda()
@@ -66,11 +68,16 @@ class Feed_Forward_Transfer():
         torch.save(self.transform_network.state_dict(), filepath)
 
     def train(self):
+        #Trains the model through the epochs of the dataset
+
+        #Load the dataset in batches
         content = datasets.ImageFolder(root=self.content_folder_path, loader=self.image_loader)
         content_loader = torch.utils.data.DataLoader(content, batch_size=self.batch_size, shuffle=True)
         print("Training start:")
 
         style_image = self.image_loader(self.style_image_path).unsqueeze(0)
+
+        #Style image multiplied in amount to match the batch size
         style_image = Variable(torch.cat((style_image, style_image, style_image, style_image), 0))
         if self.use_cuda:
             style_image = style_image.cuda()

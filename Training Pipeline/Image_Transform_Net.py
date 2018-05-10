@@ -4,6 +4,9 @@ import torch.nn.functional as F
 from Residual_Block import Residual_Block
 
 class Image_Transform_Net(nn.Module):
+    '''This class is the Image Transform Network as set out by Johnson et al,
+       It follow their archtiecture almost exactly with a few small changes.'''
+
 
     def __init__(self):
         super(Image_Transform_Net, self).__init__()
@@ -21,6 +24,10 @@ class Image_Transform_Net(nn.Module):
         self.residual3 = Residual_Block(128, 128, 3)
         self.residual4 = Residual_Block(128, 128, 3)
         self.residual5 = Residual_Block(128, 128, 3)
+
+        '''Deconvolution is implemented in two steps, an upsample followed by
+           a standard convolution. This is done because the standard
+           ConvTranspose aproach leads to checkerboarding artifacts.'''
         self.upsample1 = nn.Upsample(scale_factor=2)
         self.padding5 = nn.ReflectionPad2d(1)
         self.deconv1 = nn.Conv2d(128, 64, 3, stride=1)
